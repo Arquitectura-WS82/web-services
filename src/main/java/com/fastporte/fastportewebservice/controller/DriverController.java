@@ -9,8 +9,8 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +35,7 @@ public class DriverController {
             @ApiResponse(code=501, message="Internal server error")
     })
     public ResponseEntity<List<Driver>> getAllDrivers() {
+        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
             List<Driver> drivers = driverService.getAll();
             if (drivers.size() > 0) {
@@ -128,19 +129,4 @@ public class DriverController {
         }
     }
 
-    // Retornar driver por email y password [ POR VER ]
-    @GetMapping(value = "/searchEmailPassword/{email}/{password}",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Driver> findDriverByEmailAndPassword(
-            @PathVariable("email") String email,
-            @PathVariable("password") String password) {
-        try {
-            Driver driver = driverService.findByEmailAndPassword(email, password);
-            if (driver == null)
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            return new ResponseEntity<>(driver, HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }

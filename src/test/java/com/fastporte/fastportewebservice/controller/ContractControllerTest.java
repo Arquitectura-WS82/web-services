@@ -107,6 +107,7 @@ public class ContractControllerTest {
                 .andExpect(status().isOk());
     }
 
+
 //    @Test
 //    void insertContract() throws Exception {
 //        Contract contract = new Contract(4L, "moving", "Lima", "Arequipa", ParseDate("2021-07-21"), ParseTime("05:50:00"),
@@ -124,6 +125,7 @@ public class ContractControllerTest {
 //                        .accept(MediaType.APPLICATION_JSON))
 //                .andExpect(status().isCreated());
 //    }
+
 
     public static String asJsonString(final Object obj) {
         try {
