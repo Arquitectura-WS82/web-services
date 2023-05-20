@@ -1,5 +1,6 @@
 package com.fastporte.fastportewebservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,18 +19,20 @@ import java.sql.Time;
 public class Experience implements Serializable{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "driver_1")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @MapsId
+    @JoinColumn(name = "driver_id", nullable = false)
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    //@MapsId
+    @JsonIgnore
     private Driver driver;
 
     @Column(name = "job", nullable = false)
     private String job;
 
-    @Column(name = "time", nullable = false)
+    @Column(name = "years", nullable = false)
     // @Temporal(TemporalType.TIMESTAMP)
-    private Time time;
+    private int years;
 }

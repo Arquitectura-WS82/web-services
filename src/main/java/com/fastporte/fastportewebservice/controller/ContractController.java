@@ -80,6 +80,7 @@ public class ContractController {
     }
 
     //Retornar los contratos por driver con status OFFER
+    /*
     @GetMapping(value = "/offer/driver/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value="Contracts of driver by status OFFER", notes="Method to find contracts of driver by status OFFER")
     @ApiResponses({
@@ -101,6 +102,7 @@ public class ContractController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+     */
 
     //Retornar los contratos por user(client/driver) con status OFFER
     @GetMapping(value = "/offer/{user}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -204,21 +206,20 @@ public class ContractController {
             Optional<Client> client = clientService.getById(clientId);
             Optional<Driver> driver = driverService.getById(driverId);
             List<Contract> contracts = contractService.getAll();
-            System.out.println(contracts.get(contracts.size() - 1).getId());
             if (client.isPresent() && driver.isPresent()) {
-
                 contract.setClient(client.get());
                 contract.setDriver(driver.get());
+                contract.setVisible(true);
                 contract.setStatus(statusContractService.getById(1L).get());
                 contract.setNotification(notificationService.getById(0L).get());
-                System.out.println(driverId);
-                System.out.println(clientId);
+
                 Contract contractNew = contractService.save(contract);
                 return ResponseEntity.status(HttpStatus.CREATED).body(contractNew);
             } else
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
         } catch (Exception e) {
+            System.out.println("Error acá");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -247,7 +248,7 @@ public class ContractController {
 
     //Obetner las notificaciones no leídas de un client
     @GetMapping(value = "/unread-notifications/{user}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value="Unread notifications by client id", notes="Method to find unread notifications by client id")
+    @ApiOperation(value="Unread notifications by user(client/driver) id", notes="Method to find unread notifications by user id")
     @ApiResponses({
             @ApiResponse(code=201, message="Unread notifications found"),
             @ApiResponse(code=404, message="Unread notifications not found"),
@@ -304,6 +305,7 @@ public class ContractController {
     }
 
     //Cambiar el status del contrato de OFFER a PENDING - aquí se añade al driver al contrato
+/*
     @PutMapping(value = "/{idContract}/change-status-offer-to-pending/driver={idDriver}")
     @ApiOperation(value="Update notification status of OFFER to PENDING", notes="Method to update notification status of OFFER to PENDING")
     @ApiResponses({
@@ -333,6 +335,8 @@ public class ContractController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+ */
+
 
     //Actualizar el status de un contrato (solo de pending a history)
     @PutMapping(value = "/{idContract}/update-status/{idContractStatus}")
@@ -346,7 +350,7 @@ public class ContractController {
                                                               @PathVariable("idContractStatus") Long idContractStatus) {
         try {
 
-            if (idContractStatus <= 1 || idContractStatus > 3) {
+            if (idContractStatus < 1 || idContractStatus > 3) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 

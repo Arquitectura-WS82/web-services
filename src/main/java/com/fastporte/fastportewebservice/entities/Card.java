@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -22,20 +23,20 @@ public class Card implements Serializable {
     @Column(name = "holder_name", nullable = false)
     private String holderName;
 
-    @Column(name = "card_nickname", nullable = false)
-    private String cardNickname;
-
-    @Column(name = "card_number", nullable = false, length = 16)
-    private String cardNumber;
-
-    @Column(name = "expiration_date", nullable = false, length = 5)
-    private Date expirationDate;
+    @Column(name = "nickname", nullable = false)
+    private String nickname;
 
     @Column(name = "issuer", nullable = false)
     private String issuer;
 
-    @Column(name = "zip", nullable = false, length = 5)
-    private int zip;
+    @Column(name = "number", nullable = false, length = 16)
+    private Long number;
+
+    @Column(name = "expiration_date", nullable = false, length = 5)
+    private LocalDate expirationDate;
+
+    @Column(name = "cvv", nullable = false, length = 5)
+    private int cvv;
 
     @Column(name = "email", nullable = false)
     private String email;

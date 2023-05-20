@@ -32,7 +32,6 @@ public class VehicleController {
         this.driverService = driverService;
     }
 
-    //Retornar driver por id
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value="Vehicle by Id", notes="Method to find a vehicle by id")
     @ApiResponses({
@@ -53,7 +52,31 @@ public class VehicleController {
         }
     }
 
-    @GetMapping(value = "/find/{category}/{quantity}",
+    //Obtener todos los vehiculos de un driver
+    @GetMapping(value = "/driver/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value="Vehicle by driver id", notes="Method to find a vehicle by id")
+    @ApiResponses({
+            @ApiResponse(code=201, message="Vehicle found"),
+            @ApiResponse(code=404, message="Vehicle not found"),
+            @ApiResponse(code=501, message="Internal server error")
+    })
+    public ResponseEntity<List<Vehicle>> findVehicleByDriverId(@PathVariable("id") Long id) {
+        try {
+            List<Vehicle> vehicles = vehicleService.getAll();
+
+            vehicles.removeIf(vehicle -> !vehicle.getDriver().getId().equals(id));
+
+            if (vehicles.size()> 0)
+                return new ResponseEntity<>(vehicles, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(value = "/find/{type}/{quantity}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value="Vehicle by Category & Quantity", notes="Method to find a client by its category and quantity")
     @ApiResponses({
@@ -62,12 +85,12 @@ public class VehicleController {
             @ApiResponse(code=501, message="Internal server error")
     })
     public ResponseEntity<List<Vehicle>> findByType_cardQuantityCategory(
-            @PathVariable("category") String category,
+            @PathVariable("type") String type,
             @PathVariable("quantity") Long quantity) {
         try {
             List<Vehicle> vehicle = vehicleService.getAll();
-            vehicle.removeIf(vehicle_ -> !vehicle_.getCategory().equals(category));
-            vehicle.removeIf(vehicle_ -> vehicle_.getQuantity() < quantity);
+            vehicle.removeIf(vehicle_ -> !vehicle_.getType().equals(type));
+            vehicle.removeIf(vehicle_ -> vehicle_.getQuantity() <= quantity);
 
             if (vehicle.size() > 0)
                 return new ResponseEntity<>(vehicle, HttpStatus.OK);

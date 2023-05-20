@@ -36,7 +36,7 @@ public class Comment implements Serializable {
     private String comment;
 
     @Column(name = "star", nullable = false)
-    private String star;
+    private int star;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
@@ -45,9 +45,9 @@ public class Comment implements Serializable {
     private Client client;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "driver_id", nullable = true)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    //@JsonIgnore
+    @JoinColumn(name = "driver_id", nullable = false)
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
     private Driver driver;
 
 

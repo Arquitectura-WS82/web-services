@@ -1,6 +1,8 @@
 package com.fastporte.fastportewebservice.entities;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,13 +27,6 @@ public class Contract implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /*@Column(name = "client_id", nullable = false)
-    private Long idClient;
-
-    @Column(name = "driver_id", nullable = false)
-    private Long idDriver;
-     */
-
     @Column(name = "subject", nullable = false)
     private String subject;
 
@@ -42,14 +37,14 @@ public class Contract implements Serializable {
     private String to;
 
     @Column(name = "date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date contractDate;
+    //@Temporal(TemporalType.DATE)
+    private LocalDate contractDate;
 
     @Column(name = "time_departure", nullable = false)
-    private Time timeDeparture;
+    private LocalTime timeDeparture;
 
     @Column(name = "time_arrival", nullable = false)
-    private Time timeArrival;
+    private LocalTime timeArrival;
 
     @Column(name = "amount", nullable = false)
     private String amount;
@@ -65,12 +60,12 @@ public class Contract implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    //@JsonIgnore
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
     private Client client;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "driver_id", nullable = true)
+    @JoinColumn(name = "driver_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     //@JsonIgnore
     private Driver driver;
@@ -78,11 +73,13 @@ public class Contract implements Serializable {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "status_contract_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    //@JsonIgnore
     private StatusContract status;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "notification_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    //@JsonIgnore
     private Notification notification;
 
     /*
