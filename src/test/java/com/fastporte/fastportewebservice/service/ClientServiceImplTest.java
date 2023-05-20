@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,13 +25,14 @@ public class ClientServiceImplTest {
     private IClientRepository clientRepository;
     @InjectMocks
     private ClientServiceImpl clientService;
-
+    LocalDate date = LocalDate.now();
+    LocalTime time = LocalTime.now();
     @Test
     public void saveTest() {
         Client client = new Client(1L, "Juan", "Perez",
                 "Juan Perez", "photo", "jp@gmail.com",
                 "987654312", "Lima",
-                new Date(2000, Calendar.DECEMBER, 3), "pass123",
+                date, "pass123",
                 "I work with a lot of merchandise");
         given(clientRepository.save(client)).willReturn(client);
         Client savedClient = null;
@@ -55,17 +58,17 @@ public class ClientServiceImplTest {
         list.add(new Client(1L, "Antonio", "Martinez",
                 "Antonio Martinez", "photo", "am@gmail.com",
                 "983654313", "Amazonas",
-                new Date(1998, Calendar.JULY, 21), "pass321",
+                date, "pass321",
                 "I work with a lot of merchandise"));
         list.add(new Client(1L, "Juan", "Perez",
                 "Juan Perez", "photo", "jp@gmail.com",
                 "987654312", "Lima",
-                new Date(2000, Calendar.DECEMBER, 3), "pass123",
+                date, "pass123",
                 "My business is the most important thing"));
         list.add(new Client(1L, "Joselyn Sofia", "Maldonado",
                 "Joselyn Maldonado", "photo", "jm@gmail.com",
                 "937028312", "Ica",
-                new Date(1984, Calendar.JANUARY, 23), "pass456",
+                date, "pass456",
                 "I like to travel around my country"));
         given(clientRepository.findAll()).willReturn(list);
         List<Client> listExpected = clientService.getAll();
@@ -78,7 +81,7 @@ public class ClientServiceImplTest {
         Client client = new Client(1L, "Juan", "Perez",
                 "Juan Perez", "photo", "jp@gmail.com",
                 "987654312", "Lima",
-                new Date(2000, Calendar.DECEMBER, 3), "pass123",
+                date, "pass123",
                 "I work with a lot of merchandise");
         given(clientRepository.findById(id)).willReturn(Optional.of(client));
         Optional<Client> clientExpected = clientService.getById(id);
@@ -93,7 +96,7 @@ public class ClientServiceImplTest {
         Client client = new Client(1L, "Juan", "Perez",
                 "Juan Perez", "photo", "jp@gmail.com",
                 "987654312", "Lima",
-                new Date(2000, Calendar.DECEMBER, 3), "pass123",
+                date, "pass123",
                 "I work with a lot of merchandise");
         given(clientRepository.findByEmailAndPassword(email, password)).willReturn(client);
         Client clientExpected = clientService.findByEmailAndPassword(email, password);

@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 import static org.mockito.BDDMockito.given;
@@ -26,6 +28,8 @@ public class DriverControllerTest {
     @MockBean
     private DriverServiceImpl driverService;
     private List<Driver> driverList;
+    LocalDate date = LocalDate.now();
+    LocalTime time = LocalTime.now();
 
     @BeforeEach
     void setUp() {
@@ -33,27 +37,27 @@ public class DriverControllerTest {
         driverList.add(new Driver(1L, "Antonio", "Martinez",
                 "Antonio Martinez", "photo", "am@gmail.com",
                 "983654313", "Amazonas",
-                new Date(1998, Calendar.JULY, 21), "pass321",
+                date, "pass321",
                 "I'm a driver"));
         driverList.add(new Driver(1L, "Juan", "Perez",
                 "Juan Perez", "photo", "jp@gmail.com",
                 "987654312", "Lima",
-                new Date(2000, Calendar.DECEMBER, 3), "pass123",
+                date, "pass123",
                 "I'm very good at my job"));
         driverList.add(new Driver(1L, "Joselyn Sofia", "Maldonado",
                 "Joselyn Maldonado", "photo", "jm@gmail.com",
                 "937028312", "Ica",
-                new Date(1984, Calendar.JANUARY, 23), "pass456",
+                date, "pass456",
                 "How said Neon: GO GO GO"));
         driverList.add(new Driver(1L, "Marco", "Gonzales",
                 "Marco Gonzales", "photo", "mg@gmail.com",
                 "939268312", "Piura",
-                new Date(1993, Calendar.SEPTEMBER, 19), "pass654",
+                date, "pass654",
                 "You want to hire me"));
         driverList.add(new Driver(1L, "Juan", "Garcia",
                 "Juan Garcia", "photo", "jg@gmail.com",
                 "982136724", "Cusco",
-                new Date(2002, Calendar.MARCH, 9), "pass987",
+                date, "pass987",
                 "Fast and secure"));
     }
 
@@ -70,7 +74,7 @@ public class DriverControllerTest {
         Driver driver = new Driver(1L, "Mario", "Gomez",
                 "Mario Gomez", "photo", "mg@gmail.com",
                 "987432651", "Amazonas",
-                new Date(1998, Calendar.JULY, 21), "pass789",
+                date, "pass789",
                 "I'm the best driver");
         given(driverService.getById(driverId)).willReturn(Optional.of(driver));
         mockMvc.perform(get("/api/drivers/{id}", driverId))
@@ -82,7 +86,7 @@ public class DriverControllerTest {
         Driver driver = new Driver(1L, "Mario", "Gomez",
                 "Mario Gomez", "photo", "mg@gmail.com",
                 "987432651", "Amazonas",
-                new Date(1998, Calendar.JULY, 21), "pass789",
+                date, "pass789",
                 "I'm the best driver");
         mockMvc.perform(post("/api/drivers")
                         .content(asJsonString(driver))
@@ -97,7 +101,7 @@ public class DriverControllerTest {
         Driver driver = new Driver(1L, "Antonio", "Martinez",
                 "Antonio Martinez", "photo", "am@gmail.com",
                 "983654313", "Amazonas",
-                new Date(1998, Calendar.JULY, 21), "pass321",
+                date, "pass321",
                 "I'm the best driver");
         given(driverService.getById(id)).willReturn(Optional.of(driver));
         mockMvc.perform(put("/api/drivers/{id}", id)
@@ -113,7 +117,7 @@ public class DriverControllerTest {
         Driver driver = new Driver(1L, "Mario", "Gomez",
                 "Mario Gomez", "photo", "mg@gmail.com",
                 "987432651", "Amazonas",
-                new Date(1998, Calendar.JULY, 21), "pass789",
+                date, "pass789",
                 "I'm the best driver");
         given(driverService.getById(id)).willReturn(Optional.of(driver));
         mockMvc.perform(delete("/api/drivers/{id}", id))

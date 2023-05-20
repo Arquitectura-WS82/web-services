@@ -12,6 +12,8 @@ import org.springframework.http.*;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +28,8 @@ public class ContractStepDefinitions {
     private int randomServerPort;
     private String endpointPath;
     private ResponseEntity<String> responseEntity;
+    LocalDate date = LocalDate.now();
+    LocalTime time = LocalTime.now();
 
     @Given("The contract Endpoint {string} is available")
     public void theContractEndpointIsAvailable(String endpointPath) {
@@ -77,7 +81,7 @@ public class ContractStepDefinitions {
 
         boolean visibleParsed = visible == 1;
         Contract contract = new Contract(
-                id, subject, from, to, new Date(), timeDepartureParsed, timeArrivalParsed, amount,
+                id, subject, from, to, date, time, time, amount,
                 quantity, description, visibleParsed, new Client(), new Driver(), new StatusContract(), new Notification());
 
         HttpHeaders headers = new HttpHeaders();

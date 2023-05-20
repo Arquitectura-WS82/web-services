@@ -10,6 +10,8 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +27,8 @@ public class DriverStepDefinitions {
     private int randomServerPort;
     private String endpointPath;
     private ResponseEntity<String> responseEntity;
+    LocalDate date = LocalDate.now();
+    LocalTime time = LocalTime.now();
 
     @Given("The Driver Endpoint {string} is available")
     public void theDriverEndpointIsAvailable(String endpointPath) {
@@ -34,7 +38,7 @@ public class DriverStepDefinitions {
     @When("A Driver Request is sent with values {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}")
     public void aDriverRequestIsSentWithValues(String name, String lastname, String username, String photo, String email, String phone, String region, String birthdate, String password, String description) {
         Date birthdateDate = new SimpleDateFormat("dd/MM/yyyy").parse(birthdate, new java.text.ParsePosition(0));
-        Driver driver = new Driver(0L, name, lastname, username, photo, email, phone, region, birthdateDate, password, description);
+        Driver driver = new Driver(0L, name, lastname, username, photo, email, phone, region, date, password, description);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
