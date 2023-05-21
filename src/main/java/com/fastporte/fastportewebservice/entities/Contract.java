@@ -60,8 +60,8 @@ public class Contract implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
-    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    //@JsonIgnore
     private Client client;
 
     @ManyToOne(fetch = FetchType.LAZY)
