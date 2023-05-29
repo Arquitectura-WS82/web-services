@@ -23,9 +23,9 @@ public class Vehicle implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id", nullable = false)
-    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    //@MapsId
-    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // @MapsId
+    // @JsonIgnore
     private Driver driver;
 
 //    @Column(name = "brand", nullable = false)
