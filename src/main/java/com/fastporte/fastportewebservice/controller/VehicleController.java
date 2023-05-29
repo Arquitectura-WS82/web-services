@@ -90,7 +90,7 @@ public class VehicleController {
         try {
             List<Vehicle> vehicle = vehicleService.getAll();
             vehicle.removeIf(vehicle_ -> !vehicle_.getType().equals(type));
-            vehicle.removeIf(vehicle_ -> vehicle_.getQuantity() <= quantity);
+            vehicle.removeIf(vehicle_ -> vehicle_.getQuantity() < quantity);
 
             if (vehicle.size() > 0)
                 return new ResponseEntity<>(vehicle, HttpStatus.OK);
