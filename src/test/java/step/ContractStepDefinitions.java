@@ -28,7 +28,7 @@ public class ContractStepDefinitions {
     private int randomServerPort;
     private String endpointPath;
     private ResponseEntity<String> responseEntity;
-    LocalDate date = LocalDate.now();
+    String date = LocalDate.now().toString();
     LocalTime time = LocalTime.now();
 
     @Given("The contract Endpoint {string} is available")

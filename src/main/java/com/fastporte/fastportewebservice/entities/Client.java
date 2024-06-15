@@ -44,7 +44,7 @@ public class Client implements Serializable {
 
     //@Temporal(TemporalType.DATE)
     @Column(name = "birthdate", nullable = false)
-    private LocalDate birthdate;
+    private String birthdate;
 
     @Column(name = "password", nullable = false)
     private String password;

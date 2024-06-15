@@ -28,7 +28,7 @@ public class DriverControllerTest {
     @MockBean
     private DriverServiceImpl driverService;
     private List<Driver> driverList;
-    LocalDate date = LocalDate.now();
+    String  date = LocalDate.now().toString();
     LocalTime time = LocalTime.now();
 
     @BeforeEach

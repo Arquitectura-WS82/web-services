@@ -27,7 +27,7 @@ public class DriverStepDefinitions {
     private int randomServerPort;
     private String endpointPath;
     private ResponseEntity<String> responseEntity;
-    LocalDate date = LocalDate.now();
+    String date = LocalDate.now().toString();
     LocalTime time = LocalTime.now();
 
     @Given("The Driver Endpoint {string} is available")

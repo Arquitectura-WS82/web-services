@@ -27,7 +27,7 @@ public class ClientStepDefinitions {
     private int randomServerPort;
     private String endpointPath;
     private ResponseEntity<String> responseEntity;
-    LocalDate date = LocalDate.now();
+    String date = LocalDate.now().toString();
     LocalTime time = LocalTime.now();
     @Given("The Client Endpoint {string} is available")
     public void theClientEndpointIsAvailable(String endpointPath) {

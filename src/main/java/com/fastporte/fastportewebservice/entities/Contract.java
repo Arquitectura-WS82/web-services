@@ -38,7 +38,7 @@ public class Contract implements Serializable {
 
     @Column(name = "date", nullable = false)
     //@Temporal(TemporalType.DATE)
-    private LocalDate contractDate;
+    private String contractDate;
 
     @Column(name = "time_departure", nullable = false)
     private LocalTime timeDeparture;

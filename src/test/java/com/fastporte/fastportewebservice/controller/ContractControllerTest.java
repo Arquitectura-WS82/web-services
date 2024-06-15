@@ -40,7 +40,8 @@ public class ContractControllerTest {
 
     private List<Contract> contractList;
 
-    LocalDate date = LocalDate.now();
+    //LocalDate date = LocalDate.now();
+    String date = LocalDate.now().toString();
     LocalTime time = LocalTime.now();
     @BeforeEach
     void setUp() {

@@ -29,7 +29,8 @@ public class ClientControllerTest {
     private ClientServiceImpl clientService;
     private List<Client> clientList;
 
-    LocalDate date = LocalDate.now();
+    //LocalDate date = LocalDate.now();
+    String date = LocalDate.now().toString();
     LocalTime time = LocalTime.now();
 
     @BeforeEach
