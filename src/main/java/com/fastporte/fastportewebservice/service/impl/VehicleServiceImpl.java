@@ -39,11 +39,32 @@ public class VehicleServiceImpl implements IVehicleService {
     public Optional<Vehicle> getById(Long id) throws Exception {
         return vehicleRepository.findById(id);
     }
+    @Override
+    public List<Vehicle> getByBoxMeasure(Float width, Float height, Float length, Integer boxes) {
+        List<Vehicle> vehicles = vehicleRepository.findAll();
+        List<Vehicle> vehiclesFiltered = null;
+
+        Double boxVolume = (double) (width * height * length);
+        Double boxesVolume = boxVolume * boxes;
+
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getDimensionWidth() == null) continue;
+
+            Integer maxBoxesWidth = (int) (vehicle.getDimensionWidth() / width);
+            Integer maxBoxesHeight = (int) (vehicle.getDimensionHeight() / height);
+            Integer maxBoxesLength = (int) (vehicle.getDimensionLength() / length);
+
+            Double maxBoxesVolume = (double) (maxBoxesWidth * maxBoxesHeight * maxBoxesLength);
+
+            if (maxBoxesVolume >= boxesVolume)
+                vehiclesFiltered.add(vehicle);
+        }
+
+        return vehiclesFiltered;
+    }
+
     //@Override
     //public List<Vehicle> finByType_cardQuantityCategory(String type_card, Long quantity, String category) {
     //    return vehicleRepository.finByType_cardQuantityCategory(type_card,quantity,category);
     //}
-
-
-
 }
