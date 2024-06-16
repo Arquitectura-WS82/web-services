@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -40,6 +41,13 @@ public class Vehicle implements Serializable {
     @Column(name = "quantity", nullable = false)
     private Long quantity;
 
-//    @Column(name = "category", nullable = false)
-//    private String category;
+    @Column(name = "dimension_width", nullable = true)
+    private Float dimensionWidth;
+
+    @Column(name = "dimension_height", nullable = true)
+    private Float dimensionHeight;
+
+    @Column(name = "dimension_length", nullable = true)
+    private Float dimensionLength;
+
 }
