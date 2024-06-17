@@ -7,6 +7,7 @@ import com.fastporte.fastportewebservice.service.IVehicleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,34 +16,42 @@ import java.util.Optional;
 public class VehicleServiceImpl implements IVehicleService {
 
     private final IVehicleRepository vehicleRepository;
-    public VehicleServiceImpl(IVehicleRepository vehicleRepository){this.vehicleRepository = vehicleRepository;}
+
+    public VehicleServiceImpl(IVehicleRepository vehicleRepository) {
+        this.vehicleRepository = vehicleRepository;
+    }
 
     @Override
     @Transactional
     public Vehicle save(Vehicle vehicle) throws Exception {
         return vehicleRepository.save(vehicle);
     }
+
     @Override
     @Transactional
     public void delete(Long id) throws Exception {
         vehicleRepository.deleteById(id);
     }
+
     @Override
     public List<Vehicle> findByDriverId(Long driverId) throws Exception {
         return vehicleRepository.findByDriverId(driverId);
     }
+
     @Override
     public List<Vehicle> getAll() throws Exception {
         return vehicleRepository.findAll();
     }
+
     @Override
     public Optional<Vehicle> getById(Long id) throws Exception {
         return vehicleRepository.findById(id);
     }
+
     @Override
     public List<Vehicle> getByBoxMeasure(Float width, Float height, Float length, Integer boxes) {
         List<Vehicle> vehicles = vehicleRepository.findAll();
-        List<Vehicle> vehiclesFiltered = null;
+        List<Vehicle> vehiclesFiltered = new ArrayList<>();
 
         Double boxVolume = (double) (width * height * length);
         Double boxesVolume = boxVolume * boxes;
@@ -50,14 +59,15 @@ public class VehicleServiceImpl implements IVehicleService {
         for (Vehicle vehicle : vehicles) {
             if (vehicle.getDimensionWidth() == null) continue;
 
-            Integer maxBoxesWidth = (int) (vehicle.getDimensionWidth() / width);
-            Integer maxBoxesHeight = (int) (vehicle.getDimensionHeight() / height);
-            Integer maxBoxesLength = (int) (vehicle.getDimensionLength() / length);
+            Integer maxBoxesWidthAmount = (int) (vehicle.getDimensionWidth() / width);
+            Integer maxBoxesHeightAmount = (int) (vehicle.getDimensionHeight() / height);
+            Integer maxBoxesLengthAmount = (int) (vehicle.getDimensionLength() / length);
 
-            Double maxBoxesVolume = (double) (maxBoxesWidth * maxBoxesHeight * maxBoxesLength);
+            Integer maxBoxesVolumeAmount = (maxBoxesWidthAmount * maxBoxesHeightAmount * maxBoxesLengthAmount);
 
-            if (maxBoxesVolume >= boxesVolume)
+            if ((maxBoxesVolumeAmount * boxVolume) >= boxesVolume) {
                 vehiclesFiltered.add(vehicle);
+            }
         }
 
         return vehiclesFiltered;
