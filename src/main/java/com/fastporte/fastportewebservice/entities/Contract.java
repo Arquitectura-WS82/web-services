@@ -89,5 +89,4 @@ public class Contract implements Serializable {
     @Transient
     private Client clientTmp;
      */
-
 }

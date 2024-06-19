@@ -1,7 +1,9 @@
 package com.fastporte.fastportewebservice.controller;
 
+import com.fastporte.fastportewebservice.controller.mappers.request.ContractRequest;
 import com.fastporte.fastportewebservice.entities.*;
 import com.fastporte.fastportewebservice.service.*;
+import com.fastporte.fastportewebservice.util.General;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -11,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -201,17 +204,30 @@ public class ContractController {
     })
     public ResponseEntity<Contract> insertContract(@PathVariable("clientId") Long clientId,
                                                    @PathVariable("driverId") Long driverId,
-                                                   @Valid @RequestBody Contract contract) {
+                                                   @Valid @RequestBody ContractRequest contractRequest) {
+        System.out.println("Contract: " + contractRequest.toString());
         try {
             Optional<Client> client = clientService.getById(clientId);
             Optional<Driver> driver = driverService.getById(driverId);
-            List<Contract> contracts = contractService.getAll();
+
+            Contract contract = new Contract();
+
+            //List<Contract> contracts = contractService.getAll();
             if (client.isPresent() && driver.isPresent()) {
                 contract.setClient(client.get());
                 contract.setDriver(driver.get());
                 contract.setVisible(true);
                 contract.setStatus(statusContractService.getById(1L).get());
                 contract.setNotification(notificationService.getById(0L).get());
+                contract.setSubject(contractRequest.getSubject());
+                contract.setFrom(contractRequest.getFrom());
+                contract.setTo(contractRequest.getTo());
+                contract.setContractDate(contractRequest.getContractDate());
+                contract.setTimeDeparture(General.convertStringToLocalTime(contractRequest.getTimeDeparture()));
+                contract.setTimeArrival(General.convertStringToLocalTime(contractRequest.getTimeArrival()));
+                contract.setAmount(contractRequest.getAmount());
+                contract.setQuantity(contractRequest.getQuantity());
+                contract.setDescription(contractRequest.getDescription());
 
                 Contract contractNew = contractService.save(contract);
                 return ResponseEntity.status(HttpStatus.CREATED).body(contractNew);
@@ -220,6 +236,8 @@ public class ContractController {
 
         } catch (Exception e) {
             System.out.println("Error acá");
+            System.out.println(e.getMessage());
+
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
