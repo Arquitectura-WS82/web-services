@@ -6,6 +6,8 @@ import com.fastporte.fastportewebservice.service.IDriverService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,5 +46,16 @@ public class DriverServiceImpl implements IDriverService {
     @Override
     public Driver findByEmailAndPassword(String email, String password) {
         return driverRepository.findByEmailAndPassword(email, password);
+    }
+
+    @Override
+    public Float findRatingByDriverId(Long driverId) {
+        Float rating = driverRepository.findRatingByDriverId(driverId);
+        if (rating != null) {
+            BigDecimal bd = new BigDecimal(rating).setScale(2, RoundingMode.HALF_UP);
+            return bd.floatValue();
+        } else {
+            return null;
+        }
     }
 }

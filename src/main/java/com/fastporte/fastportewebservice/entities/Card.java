@@ -32,7 +32,7 @@ public class Card implements Serializable {
     @Column(name = "number", nullable = false, length = 16)
     private Long number;
 
-    @Column(name = "expiration_date", nullable = false, length = 5)
+    @Column(name = "expiration_date", nullable = false)
     private LocalDate expirationDate;
 
     @Column(name = "cvv", nullable = false, length = 5)

@@ -143,4 +143,16 @@ public class DriverController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    // Retornar rating de un driver por id
+    @GetMapping(value = "/rating/{driverId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Float> findRatingByDriverId(@PathVariable("driverId") Long driverId) {
+        try {
+            Float rating = driverService.findRatingByDriverId(driverId);
+            return new ResponseEntity<>(rating, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
